@@ -11,7 +11,7 @@ conf = {
     "users": [os.getcwd()+f"{dir_div}users.db", "User"]}
 
 """
-be sure to have the same name as models table in your _modelos.py and confSS.
+be sure to have the same name as models table in your _modelos.py and conf.
 """
 
 class Struct:

@@ -14,7 +14,7 @@ conf = {
 be sure to have the same name as models table in your _modelos.py and conf.
 """
 
-class Struct:
+class Struct: # thx linkkg
     def __init__(self, **entries):
         self.__dict__.update(entries)
 

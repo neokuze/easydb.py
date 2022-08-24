@@ -25,7 +25,7 @@ class Struct:
 
 class DataBase:
     def __init__(self, table, config=None, now=True):
-        self.path = config if config else conf[table]
+        self.path = config[table] if config else conf[table]
         self.metatable = None
         if now:
             self.connect_to_db()

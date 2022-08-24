@@ -20,6 +20,7 @@ def add(name="test"):
         print(cuser.__dir__(), cuser.id, cuser.name, cuser.lang, cuser.prefix, cuser.created_at)
 
 def testing():
+    """write; eval add()"""
     while True:
         _input = str(input(">>"))
         if len(_input.split(' ')) > 1:

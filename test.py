@@ -6,12 +6,12 @@ import easydb
 #     "users": [os.getcwd()+f"{dir_div}users.db", "User"]}
 
 debug = True
-
 users = easydb.DataBase("users")
-guilds = easydb.DataBase("guilds", config=None, now = False)
 
+guilds = easydb.DataBase("guilds", config=None, models=None, now = False)
 """
 can load your own config, be sure to have same name in _modelos.py
+can load your own models you can use the _modelos.py as an example.
 """
 
 def add(name="test"):
@@ -21,6 +21,7 @@ def add(name="test"):
 
 def set_to(database, name="test", what_to_change="prefix", value="."):
     """
+    this is just an example of making changes to a user in database but I used in my bots.
     eval set_to(users, name, what_to_change, value)
     eval set_to(guilds, name, what_to_change, value)
     """

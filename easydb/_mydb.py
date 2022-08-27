@@ -1,4 +1,4 @@
-from . import _modelos as models
+from . import _modelos as _models
 import sys, os, sqlite3
 from datetime import datetime
 
@@ -11,10 +11,10 @@ conf = {
     "users": [os.getcwd()+f"{dir_div}users.db", "User"]}
 
 """
-be sure to have the same name as models table in your _modelos.py and conf.
+be sure to have the same name as models table in your _modelos.py and confSS.
 """
 
-class Struct: # thx linkkg
+class Struct:
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
@@ -24,9 +24,16 @@ class Struct: # thx linkkg
                 x[0] != '_']
 
 class DataBase:
-    def __init__(self, table, config=None, now=True):
+    def __init__(self, table, config=None, models=None, now=True):
+        """
+        table must exist in config
+        config = conf must be {}
+        models = load your own schemas, example in _modelos.py
+        now = connect to database at creating object: default ON
+        """
         self.path = config[table] if config else conf[table]
         self.metatable = None
+        self._models = models or _models
         if now:
             self.connect_to_db()
 
@@ -43,7 +50,7 @@ class DataBase:
             self.metatable = self.look_at_table()
         self.db = sqlite3.connect(self.path[0])
         self.db_cursor = self.db.cursor()
-        self.db_cursor.execute(getattr(models, self.path[1]))
+        self.db_cursor.execute(getattr(self._models, self.path[1]))
     
     def create_if_doesnt_exist(self, name, ex={}):
         table_name = self.path[1]
@@ -67,7 +74,7 @@ class DataBase:
         return response
 
     def look_at_table(self):
-        base = getattr(models, self.path[1])
+        base = getattr(self._models, self.path[1])
         param = base.split('(')[1].split(')')[0]
         r = []
         for sentence in param.replace('  ','').split(','):

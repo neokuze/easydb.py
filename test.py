@@ -25,7 +25,7 @@ def add(database, name: str):
     if debug:
         print(cuser.__dir__(), cuser.id, cuser.name, cuser.lang, cuser.prefix, cuser.created_at)
 
-def set_to(database, name="test1", what_to_change="prefix", value="."):
+def set_to(database, name: str, what_to_change="prefix", value="."):
     """
     @params
     database: class where is the database,

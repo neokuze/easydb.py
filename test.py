@@ -6,22 +6,35 @@ import easydb
 #     "users": [os.getcwd()+f"{dir_div}users.db", "User"]}
 
 debug = True
-users = easydb.DataBase("users")
 
-guilds = easydb.DataBase("guilds", config=None, models=None, now = False)
+users = easydb.DataBase("users")
+guilds = easydb.DataBase("guilds", config=None, models=None, now = False) # you can read the source if you doesn't understand
+
 """
 can load your own config, be sure to have same name in _modelos.py
 can load your own models you can use the _modelos.py as an example.
 """
 
-def add(name="test"):
-    cuser = users.get_object(name, ex=dict(lang='en', prefix="/"))
+def add(database, name: str):
+    """
+    @params
+    database: from easydb.Database(table)
+    name: str,
+    """
+    cuser = database.get_object(name, ex=dict(lang='en', prefix="/"))
     if debug:
         print(cuser.__dir__(), cuser.id, cuser.name, cuser.lang, cuser.prefix, cuser.created_at)
 
-def set_to(database, name="test", what_to_change="prefix", value="."):
+def set_to(database, name="test1", what_to_change="prefix", value="."):
     """
-    this is just an example of making changes to a user in database but I used in my bots.
+    @params
+    database: class where is the database,
+    name: of the key to search in the database
+    what_to_change: the key must be on the _modelos that was loaded to the database.
+    value: this can be string or int, be sure of what you are saving
+ 
+    This is just an example of making changes to a user in database but I used in my bots.
+    Exmple;
     eval set_to(users, name, what_to_change, value)
     eval set_to(guilds, name, what_to_change, value)
     """
@@ -35,11 +48,11 @@ def set_to(database, name="test", what_to_change="prefix", value="."):
     if debug:
         print(msg)
 
-def test():
-    """eval test()"""
-    add()
-    set_to(users)
-    add()
+def test(name: str = "test1"):
+    """THis is just going to create a user in users database"""
+    add(users, name) # databases are converted in class
+    set_to(users, name) # this is just a test, im not going to complicate.
+    add(guilds, name) # using guilds as database
 
 def testing():
     """write; eval test()"""

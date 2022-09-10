@@ -25,7 +25,7 @@ def add(database, name: str):
     if debug:
         print(cuser.__dir__(), cuser.id, cuser.name, cuser.lang, cuser.prefix, cuser.created_at)
 
-def set_to(database, name: str, what_to_change="prefix", value="."):
+def set_to(database, name: str, key="prefix", value="."):
     """
     @params
     database: class where is the database,
@@ -35,16 +35,16 @@ def set_to(database, name: str, what_to_change="prefix", value="."):
  
     This is just an example of making changes to a user in database but I used in my bots.
     Exmple;
-    eval set_to(users, name, what_to_change, value)
-    eval set_to(guilds, name, what_to_change, value)
+    eval set_to(users, name, key, value)
+    eval set_to(guilds, name, key, value)
     """
     if value:
         if len(value) <=2:
-            database.update_row_by_name(name, what_to_change, value)
-            msg = "{} changed to {} for user {}".format(what_to_change, value, name)
+            database.update_row_by_name(name, key, value)
+            msg = "{} changed to {} for user {}".format(key, value, name)
         else: msg = "prefix is long..."
     else:
-        msg = "eval set_to('user1', what_to_change='lang', value='es')"
+        msg = "eval set_to('user1', key='lang', value='es')"
     if debug:
         print(msg)
 

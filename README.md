@@ -3,11 +3,34 @@
 
 - Read by line for line a .py file. or variable. its explained better in _modelos.py
 - can set easy with some config
+# You can create your own models like this, lets named telegram_models.py
+```
+Guild = """
+    CREATE TABLE IF NOT EXISTS TelegramGroup (
+        id INTEGER PRIMARY KEY NOT NULL UNIQUE,
+        name TEXT NOT NULL UNIQUE,
+        lang TEXT,
+        created_at TEXT
+    )
+"""
 
+User = """
+    CREATE TABLE IF NOT EXISTS TelegramUser (
+        id INTEGER PRIMARY KEY NOT NULL UNIQUE,
+        name TEXT NOT NULL UNIQUE,
+        lang TEXT,
+        prefix TEXT,
+        nick TEXT,
+        birthday TEXT,
+        created_at TEXT
+    )
+"""
+```
 # Example buiding a config class for a bot.
 ```
 import os
 import mydb
+from . import telegram_models
 
 class telegramConfig:
     def __init__(self):
@@ -15,8 +38,8 @@ class telegramConfig:
             "telegram_groups": [os.getcwd()+"/data/in/telegram/guilds.db", "TelegramGroup"], >
             "telegram_users": [os.getcwd()+"/data/in/telegram/users.db", "TelegramUser"] # wa>
         }
-        self.users = mydb.DataBase("telegram_users", conf)
-        self.guilds = mydb.DataBase("telegram_groups", conf)
+        self.users = mydb.DataBase("telegram_users", config=conf, models=telegram_models)
+        self.guilds = mydb.DataBase("telegram_groups", config=conf, models=telegram_models)
         # rest of the code.
 
   def get_room(self, name, ex={}):

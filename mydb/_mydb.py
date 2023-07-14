@@ -131,6 +131,7 @@ class DataBase:
                 self.db.commit()
 
     def get_column_type(self, column_name):
+        column_type = "TEXT"  
         model_definition = getattr(self._models, self.path[1])
         if column_name in model_definition:
             column_definition = model_definition.split(column_name)[1].split(",")[0].strip()

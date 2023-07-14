@@ -1,17 +1,8 @@
-from . import _modelos as _models
+from . import _modelos as _models 
 import sys, os, sqlite3
 from datetime import datetime
-
-if os.name == 'nt':
-    dir_div = "\\"
-else: dir_div = "/"
-
-conf = {
-    "guilds": [os.getcwd()+f"{dir_div}guilds.db", "Guild"],
-    "users": [os.getcwd()+f"{dir_div}users.db", "User"]}
-
 """
-be sure to have the same name as models table in your _modelos.py and confSS.
+Columns now is automatic updated id added in actual_models.py and make the change to the table.
 """
 
 class Struct:
@@ -22,15 +13,24 @@ class Struct:
         return [x for x in
                 set(list(self.__dict__.keys()) + list(dir(type(self)))) if
                 x[0] != '_']
+        
+w = "\\" if os.name == 'nt' else "/" 
+fpath = "{}{}".format(os.getcwd(),f"{w}config{w}") # if imported from main, create config folder and __init__.py
+conf = {
+    "Guild": [f"{fpath}guilds.db", "Guild"], # last one is name of the table
+    "User": [f"{fpath}users.db", "User"] # was created for discord but yeah aja
+}
 
 class DataBase:
     def __init__(self, table, config=None, models=None, now=True):
         """
-        table must exist in config
-        config = conf must be {}
-        models = load your own schemas, example in _modelos.py
+        table must exist in config is conf right down in line 19
+        models = load your own schemas, example in _models
         now = connect to database at creating object: default ON
+        Every Table require two columns name, created_at] idk if fails.
+     
         """
+        
         self.path = config[table] if config else conf[table]
         self.metatable = None
         self._models = models or _models
@@ -51,6 +51,7 @@ class DataBase:
         self.db = sqlite3.connect(self.path[0])
         self.db_cursor = self.db.cursor()
         self.db_cursor.execute(getattr(self._models, self.path[1]))
+        self.update_table_if_needed()
     
     def create_if_doesnt_exist(self, name, ex={}):
         table_name = self.path[1]
@@ -116,3 +117,28 @@ class DataBase:
             self.db.commit()
             return True
         return False
+
+    def update_table_if_needed(self):
+        table_name = self.path[1]
+        self.db_cursor.execute(f"PRAGMA table_info({table_name})")
+        existing_columns = [col[1] for col in self.db_cursor.fetchall()]
+
+        base_columns = self.look_at_table()
+        for column in base_columns:
+            if column not in existing_columns:
+                column_type = self.get_column_type(column)
+                self.db_cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN {column} {column_type}")
+                self.db.commit()
+
+    def get_column_type(self, column_name):
+        model_definition = getattr(self._models, self.path[1])
+        if column_name in model_definition:
+            column_definition = model_definition.split(column_name)[1].split(",")[0].strip()
+            if "INTEGER" in column_definition:
+                column_type = "INTEGER"
+            elif "REAL" in column_definition:
+                column_type = "REAL"
+            elif "BLOB" in column_definition:
+                column_type = "BLOB"
+
+        return column_type

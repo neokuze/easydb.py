@@ -1,2 +1,2 @@
-from ._mydb import *
+from .mydb import *
 

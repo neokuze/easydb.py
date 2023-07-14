@@ -22,20 +22,26 @@ class telegramConfig:
   def get_room(self, name, ex={}):
         r = self.guilds.create_if_doesnt_exist(name, ex)
         if r:
-            return Struct(**r)
+            return mydb.Struct(**r)
         return None
 
   def get_user(self, name, ex={}):
         r = self.users.create_if_doesnt_exist(name, ex)
         if r:
-            return Struct(**r)
+            return mydb.Struct(**r)
         return None
 
 
 ```
 
 ## for handling in on_message events...
+```
+async def on_message(self, messagae):
+    croom = self.config.get_room(message.room.name, ex=dict(suffix=csuffix, lang="en"))
 
-"""
+# when changing something in database I just do
+#when get user its get it like Class thats why its the object cuser that i get with the get_user
+ 
+ config.users.update_row(lcs.cuser.id, 'lang', 'en')
 
-"""
+```

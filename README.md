@@ -5,7 +5,7 @@
 - can set easy with some config
 
 # Example buiding a config class for a bot.
-"""
+```
 import os
 import mydb
 
@@ -32,7 +32,7 @@ class telegramConfig:
         return None
 
 
-"""
+```
 
 ## for handling in on_message events...
 

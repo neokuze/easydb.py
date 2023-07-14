@@ -1,5 +1,5 @@
 #! /usr/bin/python3.9
-import easydb 
+import mydb
 
 # conf = {
 #     "guilds": [os.getcwd()+f"{dir_div}guilds.db", "Guild"],
@@ -7,8 +7,8 @@ import easydb
 
 debug = True
 
-users = easydb.DataBase("users")
-guilds = easydb.DataBase("guilds", config=None, models=None, now = False) # you can read the source if you doesn't understand
+users = mydb.DataBase("users")
+guilds = mydb.DataBase("guilds", config=None, models=None, now = False) # you can read the source if you doesn't understand
 
 """
 can load your own config, be sure to have same name in _modelos.py
@@ -18,7 +18,7 @@ can load your own models you can use the _modelos.py as an example.
 def add(database, name: str):
     """
     @params
-    database: from easydb.Database(table)
+    database: from mydb.Database(table)
     name: str,
     """
     cuser = database.get_object(name, ex=dict(lang='en', prefix="/"))

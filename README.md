@@ -39,9 +39,9 @@ class telegramConfig:
 async def on_message(self, messagae):
     croom = self.config.get_room(message.room.name, ex=dict(suffix=csuffix, lang="en"))
 
-# when changing something in database I just do
-#when get user its get it like Class thats why its the object cuser that i get with the get_user
- 
- config.users.update_row(lcs.cuser.id, 'lang', 'en')
+     # when changing something in database I just do
+     #when get user its get it like Class thats why its the object cuser that i get with the get_user
+     if cmd == "lang" and args == "en":
+     self.config.guilds.update_row(lcs.cuser.id, 'lang', 'en')
 
 ```

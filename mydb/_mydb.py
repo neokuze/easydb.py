@@ -15,7 +15,7 @@ class Struct:
                 x[0] != '_']
         
 w = "\\" if os.name == 'nt' else "/" 
-fpath = "{}{}".format(os.getcwd(),f"{w}config{w}") # if imported from main, create config folder and __init__.py
+fpath = "{}{}".format(os.getcwd(),f"{w}") # if imported from main, create config folder and __init__.py
 conf = {
     "Guild": [f"{fpath}guilds.db", "Guild"], # last one is name of the table
     "User": [f"{fpath}users.db", "User"] # was created for discord but yeah aja

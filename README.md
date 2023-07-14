@@ -5,7 +5,7 @@
 - can set easy with some config
 # You can create your own models like this, lets named telegram_models.py
 ```
-Guild = """
+TelegramGroup = """
     CREATE TABLE IF NOT EXISTS TelegramGroup (
         id INTEGER PRIMARY KEY NOT NULL UNIQUE,
         name TEXT NOT NULL UNIQUE,
@@ -14,7 +14,7 @@ Guild = """
     )
 """
 
-User = """
+TelegramUser = """
     CREATE TABLE IF NOT EXISTS TelegramUser (
         id INTEGER PRIMARY KEY NOT NULL UNIQUE,
         name TEXT NOT NULL UNIQUE,

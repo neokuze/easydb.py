@@ -90,7 +90,6 @@ class DataBase:
         return r
 
     def _covert_to_dict(self, resp):
-        r = {}
         if resp:
             return {col: val for col, val in zip(self.metatable, resp) if col}
         return None

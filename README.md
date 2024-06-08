@@ -10,6 +10,7 @@ TelegramGroup = """
         id INTEGER PRIMARY KEY NOT NULL UNIQUE,
         name TEXT NOT NULL UNIQUE,
         lang TEXT,
+        prefix TEXT,
         created_at TEXT
     )
 """
@@ -32,8 +33,9 @@ import os
 import mydb
 from . import telegram_models
 
-class telegramConfig:
+class Config:
     def __init__(self):
+        self.default = {'prefix': '/', 'lang': 'en'}
         conf = {
             "telegram_groups": [os.getcwd()+"/data/in/telegram/guilds.db", "TelegramGroup"], >
             "telegram_users": [os.getcwd()+"/data/in/telegram/users.db", "TelegramUser"] # wa>
@@ -46,7 +48,7 @@ class telegramConfig:
         r = self.guilds.create_if_doesnt_exist(name, ex)
         if r:
             return mydb.Struct(**r)
-        return None
+        return None # supposed to never raise a None, but still here for debug
 
   def get_user(self, name, ex={}):
         r = self.users.create_if_doesnt_exist(name, ex)
@@ -59,12 +61,13 @@ class telegramConfig:
 
 ## for handling in on_message events...
 ```
-async def on_message(self, messagae):
-    croom = self.config.get_room(message.room.name, ex=dict(suffix=csuffix, lang="en"))
+async def on_message(self, messaga):
+    croom = self.config.get_room(message.room.name,
+        ex=dict(prefix=self.config.default['prefix'], lang=self.config.default['lang'])) # get group and load basic config
 
-     # when changing something in database I just do
-     #when get user its get it like Class thats why its the object cuser that i get with the get_user
-     if cmd == "lang" and args == "en":
-     self.config.guilds.update_row(lcs.cuser.id, 'lang', 'en')
+     #To change a setting, I'll do it in this way.
+     if cmd == "lang" and args == "en": #  if lang selected is eng
+         self.config.guilds.update_row(lcs.croom.id, 'lang', 'en') # sets lang english
+         await message.response(f"Success change to {args}")
 
 ```

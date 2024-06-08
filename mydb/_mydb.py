@@ -83,14 +83,17 @@ class DataBase:
                 r.append(sentence.split('INTEGER')[0].strip().replace('\n',''))
             elif 'TEXT' in sentence:
                 r.append(sentence.split('TEXT')[0].strip().replace('\n',''))
+            elif 'BLOB' in sentence:
+                r.append(sentence.split('BLOB')[0].strip().replace('\n',''))
+            elif 'REAL' in sentence:
+                r.append(sentence.split('REAL')[0].strip().replace('\n',''))
         return r
 
     def _covert_to_dict(self, resp):
         r = {}
         if resp:
-            for i in range(len(resp)):
-                r[self.metatable[i]] = resp[i]
-        return r or None
+            return {col: val for col, val in zip(self.metatable, resp) if col}
+        return None
 
     def update_row(self, uid, k, v):
         sql = f'''UPDATE {self.path[1]} SET {k} = ? WHERE id = ? '''
